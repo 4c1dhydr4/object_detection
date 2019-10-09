@@ -4,7 +4,7 @@ from playsound import playsound
 from gtts import gTTS
 from googletrans import Translator
 from imageai.Detection import ObjectDetection
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '4'
 
 class Detector:
 	def __init__(self, model_path, output_path):
@@ -16,7 +16,7 @@ class Detector:
 		self.output_path = output_path
 		self.out_text = ''
 		self.out_audio = None
-		self.language = 'es'
+		self.language = 'en'
 		self.id = 0
 
 		self.initialize()
