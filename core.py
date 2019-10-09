@@ -16,7 +16,7 @@ class Detector:
 		self.output_path = output_path
 		self.out_text = ''
 		self.out_audio = None
-		self.language = 'en'
+		self.language = 'es'
 		self.id = 0
 
 		self.initialize()
