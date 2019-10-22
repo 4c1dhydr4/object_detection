@@ -1,8 +1,10 @@
 
 import os
 from imageai.Detection import ObjectDetection
+import pygame
+import pygame.camera
 
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '4'
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 class Detector:
 	def __init__(self, model_path, output_path, language, translator):
@@ -12,25 +14,41 @@ class Detector:
 		self.model_path = model_path
 		self.output_path = output_path
 		self.detection_text = ''
-		self.out_audio = None
-		self.id = 0
+		self.jpg_id = 0
 		self.language = language
 		self.translator = translator
+		self.cam = None
 
-	def initialize(self):
+	def initialize(self, cam_number):
 		self.detector = ObjectDetection()
 		self.detector.setModelTypeAsTinyYOLOv3()
 		self.detector.setModelPath(self.model_path)
 		self.detector.loadModel()
+		"""
+		pygame.init()
+		pygame.camera.init()
+		camlist = pygame.camera.list_cameras()
+		if camlist:
+			self.cam = pygame.camera.Camera(
+				pygame.camera.list_cameras()[cam_number],
+				(640,480))
+			self.cam.start()
+		else:
+			print('No hay cámaras conectadas')
+		"""
 
 	def get_detection(self, input_path):
 		self.detection = self.detector.detectObjectsFromImage(
 			input_image=input_path, 
-			output_image_path=self.output_path)
+			output_image_path=self.output_path + str(self.jpg_id) + '.jpg')
 		self.detection_items = []
 		self.detection_text = ''
 		for item in self.detection:
 			text = self.translator.translate(item["name"], dest=self.language).text
 			self.detection_items.append(item)
 			self.detection_text = self.detection_text + ' ' + text
+		self.jpg_id += 1
 		return self.detection_text
+
+	def take_picture(self):
+		return self.cam.get_image()
