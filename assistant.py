@@ -1,5 +1,6 @@
 from datetime import datetime
-from playsound import playsound
+from pygame import mixer
+# from playsound import playsound
 from gtts import gTTS
 from googletrans import Translator
 
@@ -10,12 +11,14 @@ class Assistant:
 		self.translator = Translator()
 		self.language = language
 		self.mp3_id = 0
+		self.mixer = mixer.init()
 
 	def speake(self, text):
-		tts = gTTS(text=text, lang=self.language)
+		gtts = gTTS(text=text, lang=self.language)
 		audio = './mp3/' + str(self.mp3_id) + '.mp3'
-		tts.save(audio)
-		playsound(audio)
+		gtts.save(audio)
+		mixer.music.load(audio)
+		mixer.music.play()
 		self.mp3_id = self.mp3_id + 1
 
 	def say_my_name(self):

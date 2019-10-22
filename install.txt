@@ -1,0 +1,35 @@
+apt-get update && apt-get upgrade
+apt-get install -y make build-essential libssl-dev zlib1g-dev
+apt-get install -y libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm
+apt-get install -y libncurses5-dev  libncursesw5-dev xz-utils tk-dev
+apt-get install libjpeg-dev zlib1g-dev
+apt-get install apache2 git
+
+
+tensorflow:
+	https://github.com/lhelontra/tensorflow-on-arm/releases 
+	https://github.com/lhelontra/tensorflow-on-arm/releases/tag/v1.14.0-buster
+
+pip3 install tensorflow_v1.14.0.....
+apt-get install libatlas-base-dev
+pip3 install pillow lxml jupyter matplotlib cython
+apt-get install python-tk
+
+apt-get install libjpeg-dev libtiff5-dev libjasper-dev libpng12-dev
+apt-get install libavcodec-dev libavformat-dev libswscale-dev libv4l-dev
+apt-get install libxvidcore-dev libx264-dev
+apt-get install qt4-dev-tools libatlas-base-dev
+apt-get install libilmbase-dev libopenexr-dev libgstreamer1.0-dev
+apt-get install libgstreamer1.0-0
+apt-get install libhdf5-dev
+apt-get update
+apt-get install libhdf5-serial-dev
+
+pip3 install opencv-python
+
+apt-get install python-gst-1.0 gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly gstreamer1.0-tools
+apt-get install --reinstall libsdl1.2debian
+apt-get install libsdl1.2-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev
+
+pip install imageai keras playsound gtts googletrans nunpy==16.2
+
