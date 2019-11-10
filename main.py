@@ -1,7 +1,11 @@
+import os
 import time
 from core import Detector
 from assistant import Assistant
 from pygame import mixer
+
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+
 
 frames = [
 	'animals.jpg',
@@ -11,52 +15,47 @@ frames = [
 	'test01.jpg',
 ]
 
-langs = [
-	'mp3/lang_es.mp3',
-	'mp3/lang_en.mp3',
-	'mp3/lang_fr.mp3',
-	'mp3/lang_de.mp3',
-]
-
 megan = None
 det = None
 
 def get_lang():
 	mixer.init()
-	mixer.music.load(langs[0])
-	mixer.music.queue(langs[1])
+	mixer.music.load('mp3/lang.mp3')
 	mixer.music.play()
 
 	inp = input('Ingresa la Opción: ')
+	mixer.music.stop()
 	if inp == '1':
-		mixer.music.stop()
 		return 'es'
 	elif inp == '2':
-		mixer.music.stop()
 		return 'en'
 	elif inp == '3':
-		mixer.music.stop()
 		return 'fr'
 	elif inp == '4':
-		mixer.music.stop()
 		return 'de'
 	else:
-		mixer.music.stop()
 		return 'es'
-
 
 def detection():
 	stop = False
 	frame = 0
 	while not stop:
 		megan.shut_up()
-		# frame = det.take_picture()
-		detection_text = det.get_detection('input/' + frames[frame])
-		print('Detección: ', detection_text)
-		megan.speake(detection_text)
+		# detection_text = det.get_detection('input/' + frames[frame])
+		ok, frame = det.take_picture()
+		if ok:
+			detection_text = det.get_detection(frame)
+			print('Detección: ', detection_text)
+			if len(detection_text) == 0:
+				megan.speake('No he logrado detectar objetos')
+			else:
+				megan.speake(detection_text)
+
+		else:
+			megan.speake("Error al obtener fotografía")
 		if megan.get_input() == '1':
 			stop = True
-		frame += 1
+		# frame += 1
 	megan.speake('Gracias por usar el asistente de reconocimiento del entorno')
 	time.sleep(5)
 

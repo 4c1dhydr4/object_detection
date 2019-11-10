@@ -1,4 +1,6 @@
 import os
+import cv2
+from PIL import Image
 from imageai.Detection import ObjectDetection
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
@@ -12,6 +14,7 @@ class Detector:
 		self.output_path = output_path
 		self.detection_text = ''
 		self.jpg_id = 0
+		self.photo_id = 0
 		self.language = language
 		self.translator = translator
 		self.cam = None
@@ -36,5 +39,14 @@ class Detector:
 		return self.detection_text
 
 	def take_picture(self):
-		# return self.cam.get_image()
-		pass
+		video_capture = cv2.VideoCapture(0)
+		if not video_capture.isOpened():
+			return False, None
+		ret, frame = video_capture.read()
+		video_capture.release()
+		# im = Image.fromarray(crop_center(frame[:,:,::-1],350,350))
+		im = Image.fromarray(frame[:,:,::-1])
+		picture_name = "pictures/{}.jpg".format(self.photo_id)
+		im.save(picture_name)
+		self.photo_id += 1
+		return True, picture_name
