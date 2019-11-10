@@ -1,8 +1,5 @@
-
 import os
 from imageai.Detection import ObjectDetection
-import pygame
-import pygame.camera
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
@@ -24,18 +21,6 @@ class Detector:
 		self.detector.setModelTypeAsTinyYOLOv3()
 		self.detector.setModelPath(self.model_path)
 		self.detector.loadModel()
-		"""
-		pygame.init()
-		pygame.camera.init()
-		camlist = pygame.camera.list_cameras()
-		if camlist:
-			self.cam = pygame.camera.Camera(
-				pygame.camera.list_cameras()[cam_number],
-				(640,480))
-			self.cam.start()
-		else:
-			print('No hay cámaras conectadas')
-		"""
 
 	def get_detection(self, input_path):
 		self.detection = self.detector.detectObjectsFromImage(
@@ -51,4 +36,5 @@ class Detector:
 		return self.detection_text
 
 	def take_picture(self):
-		return self.cam.get_image()
+		# return self.cam.get_image()
+		pass
