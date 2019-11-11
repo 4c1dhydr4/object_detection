@@ -1,8 +1,8 @@
 from datetime import datetime
 from pygame import mixer
-# from playsound import playsound
 from gtts import gTTS
 from googletrans import Translator
+from arduino import R2D2
 
 class Assistant:
 	def __init__(self, name, user_name, language):
@@ -11,10 +11,11 @@ class Assistant:
 		self.translator = Translator()
 		self.language = language
 		self.mp3_id = 0
-		
+		self.r2d2 = False
 		self.init()
 
 	def init(self):
+		self.r2d2 = R2D2()
 		mixer.init()
 
 	def speake(self, text):
@@ -66,7 +67,8 @@ class Assistant:
 		return inp
 
 	def get_input(self):
-		inp = input('Ingresa la Opción: ')
-		return inp
+		opt = '0'
+		opt = self.r2d2.get_input()
+		return opt
 
 
