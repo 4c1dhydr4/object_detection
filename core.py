@@ -26,9 +26,10 @@ class Detector:
 		self.detector.loadModel()
 
 	def get_detection(self, input_path):
+		output_image = self.output_path + str(self.jpg_id) + '.jpg'
 		self.detection = self.detector.detectObjectsFromImage(
 			input_image=input_path, 
-			output_image_path=self.output_path + str(self.jpg_id) + '.jpg')
+			output_image_path=output_image)
 		self.detection_items = []
 		self.detection_text = ''
 		for item in self.detection:
@@ -36,7 +37,7 @@ class Detector:
 			self.detection_items.append(item)
 			self.detection_text = self.detection_text + ' ' + text
 		self.jpg_id += 1
-		return self.detection_text
+		return self.detection_text, output_image
 
 	def take_picture(self):
 		video_capture = cv2.VideoCapture(0)

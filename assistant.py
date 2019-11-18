@@ -3,6 +3,7 @@ from pygame import mixer
 from gtts import gTTS
 from googletrans import Translator
 from arduino import R2D2
+from telegram_bot import Telegram
 
 class Assistant:
 	def __init__(self, name, user_name, language):
@@ -12,11 +13,13 @@ class Assistant:
 		self.language = language
 		self.mp3_id = 0
 		self.r2d2 = False
+		self.telegram = None
 		self.init()
 
 	def init(self):
 		self.r2d2 = R2D2()
 		mixer.init()
+		self.telegram = Telegram()
 
 	def speake(self, text):
 		text = self.translate(text)
