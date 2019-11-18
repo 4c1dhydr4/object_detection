@@ -43,15 +43,27 @@ def detection():
 	while not stop:
 		megan.shut_up()
 		# detection_text = det.get_detection('input/' + frames[frame])
-		ok, frame = det.take_picture()
-		if ok:
-			detection_text = det.get_detection(frame)
-			if len(detection_text) == 0:
-				megan.speake('No he logrado detectar objetos')
+		detector_ok = False
+		attempts = 0
+		while not detector_ok:
+			ok, frame = det.take_picture()
+			if ok:
+				detection_text, output_image = det.get_detection(frame)
+				if len(detection_text) == 0:
+					attempts += 1
+					megan.speake('Intentando')
+				else:
+					detector_ok = True
+					megan.speake(detection_text)
+					megan.telegram.send_picture(output_image)
+					time.sleep(10)
+				if attempts == 10:
+					detector_ok = True
+					megan.speake('No he logrado detectar objetos')
+					time.sleep(10)
 			else:
-				megan.speake(detection_text)
-		else:
-			megan.speake("Error al obtener fotografía")
+				megan.speake("Error al obtener fotografía")
+		megan.speake('Precione 4 para salir o cualquier botón para detectar objetos')
 		opt = megan.get_input()
 		if opt == '4':
 			stop = True
@@ -61,11 +73,10 @@ def detection():
 
 def emergency(detector, lang):
 	megan.speake('Enviando mensaje de emergencia a contactos enlazados')
-	telegram = Telegram()
 	emergency_text = 'Me encuentro en una emergencia, por favor necesito ayuda. Te envío mi ubicación.'
 	text = detector.translator.translate(emergency_text, dest=lang).text
 	time.sleep(5)
-	megan.speake(telegram.send_text(text))
+	megan.speake(megan.telegram.send_text(text))
 	time.sleep(2)
 	megan.speake('Capturando y enviando fotografías. Preciona 4 para cancelar y cualquier botón para capturar imágen y enviarla')
 	time.sleep(7)
@@ -73,7 +84,7 @@ def emergency(detector, lang):
 	while not stop:
 		ok, frame = det.take_picture()
 		if ok:
-			megan.speake(telegram.send_picture(frame))
+			megan.speake(megan.telegram.send_picture(frame))
 		else:
 			megan.speake("Error al capturar fotografía")
 		opt = megan.get_input()
@@ -82,21 +93,34 @@ def emergency(detector, lang):
 	megan.speake("Gracias por usar el servicio de emergencia")
 
 
+def amplification():
+	megan.speake('Bienvenido a la función de Amplificación de sonidos')
+	time.sleep(10)
+	megan.speake('Esta función se encuentra en implementación')
+
 def gps():
 	megan.speake('Bienvenido a la función de Navegación GPS')
+	time.sleep(10)
+	megan.speake('Esta función se encuentra en implementación')
+
 
 def run(det, megan):
 	megan.speake(megan.say_hi() + ';' + megan.say_my_name()) 
 	det.initialize(cam_number=0)
 	inp = megan.main_menu()
+	time.sleep(10)
 	if inp == '1':
 		emergency(det, megan.language)
 	if inp == '2':
 		detection()
 	if inp == '3':
-		pass
+		amplification()
 	if inp == '4':
 		gps()
+	time.sleep(10)
+	megan.speake('Regresando al menú principal')
+	time.sleep(10)
+	run(det, megan)
 
 if __name__ == '__main__':
 	lang = get_lang()

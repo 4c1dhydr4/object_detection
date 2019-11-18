@@ -15,7 +15,6 @@ void setup() {
 
 void loop() {
   read_buttons();
-  Serial.println(send_op());
   is_pressed();
 }
 
@@ -46,6 +45,7 @@ void read_buttons(){
 void is_pressed(){
   if(op1State == HIGH || op2State == HIGH || op3State == HIGH || op4State == HIGH){
     digitalWrite(ledPin, HIGH);
+    Serial.println(send_op());
   }else{
     digitalWrite(ledPin, LOW);
   }
