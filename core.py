@@ -35,7 +35,7 @@ class Detector:
 		for item in self.detection:
 			text = self.translator.translate(item["name"], dest=self.language).text
 			self.detection_items.append(item)
-			self.detection_text = self.detection_text + ' ' + text
+			self.detection_text = self.detection_text + text + '. '
 		self.jpg_id += 1
 		return self.detection_text, output_image
 

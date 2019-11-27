@@ -29,6 +29,7 @@ class Assistant:
 		mixer.music.load(audio)
 		mixer.music.play()
 		self.mp3_id = self.mp3_id + 1
+		print(text)
 
 	def translate(self, text):
 		return self.translator.translate(text, dest=self.language).text

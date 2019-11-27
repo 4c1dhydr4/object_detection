@@ -42,6 +42,7 @@ def detection():
 	frame = 0
 	while not stop:
 		megan.shut_up()
+		megan.speake('Detectando objetos')
 		# detection_text = det.get_detection('input/' + frames[frame])
 		detector_ok = False
 		attempts = 0
